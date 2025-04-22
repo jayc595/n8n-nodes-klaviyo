@@ -37,8 +37,204 @@ export const ProfileOperations: INodeProperties[] = [
 					},
 				},
 			},
+			{
+				name: 'Update',
+				value: 'update',
+				action: 'Update a profile',
+				routing: {
+					request: {
+						method: 'PATCH',
+					},
+				},
+			},
 		],
 		default: 'getAll',
+	},
+];
+
+const updateProfileFields: INodeProperties[] = [
+	{
+		displayName: 'Profile ID',
+		name: 'updateProfileId',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['update']
+			},
+		},
+		routing: {
+			request: {
+				url: '=/profiles/{{ $value }}',
+			}
+		},
+		required: true
+	},
+	{
+		displayName: 'Attributes',
+		name: 'updateAttributes',
+		placeholder: 'Add Attribute',
+		type: 'fixedCollection',
+		default: {},
+		displayOptions: { // the resources and operations to display this element with
+			show: {
+				resource: ['profile'],
+				operation: ['update']
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Attributes',
+				name: 'attribute',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'options',
+						// eslint-disable-next-line n8n-nodes-base/node-param-options-type-unsorted-items
+						options: [
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'email',
+								value: 'email'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'phone_number',
+								value: 'phone_number'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'external_id',
+								value: 'external_id'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'anonymous_id',
+								value: 'anonymous_id'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'first_name',
+								value: 'first_name'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'last_name',
+								value: 'last_name'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'organization',
+								value: 'organization'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'locale',
+								value: 'locale'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'title',
+								value: 'title'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'image',
+								value: 'image'
+							},
+							{
+								name: 'location.address1',
+								value: 'location.address1',
+							},
+							{
+								name: 'location.address2',
+								value: 'location.address2',
+							},
+							{
+								name: 'location.city',
+								value: 'location.city',
+							},
+							{
+								name: 'location.country',
+								value: 'location.country',
+							},
+							{
+								name: 'location.latitude',
+								value: 'location.latitude',
+							},
+							{
+								name: 'location.longitude',
+								value: 'location.longitude',
+							},
+							{
+								name: 'location.region',
+								value: 'location.region',
+							},
+							{
+								name: 'location.zip',
+								value: 'location.zip',
+							},
+							{
+								name: 'location.timezone',
+								value: 'location.timezone',
+							},
+							{
+								name: 'location.ip',
+								value: 'location.ip',
+							},
+						],
+						default: 'email',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Properties',
+				name: 'property',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					}
+				]
+			}
+		],
+		routing: {
+			request: {
+				body: {
+					data: {
+						type: 'profile',
+						id: '={{ $parameter["updateProfileId"] }}',
+						attributes: '={{ {\
+							...Object.fromEntries(($value.attribute || []).map(({ key, value }) => [key, value])),\
+							properties: {\
+								...Object.fromEntries(($value.property || []).map(({ key, value }) => [key, value]))\
+							}\
+						} }}',
+					},
+				},
+				returnFullResponse: true,
+				ignoreHttpStatusErrors: true,
+			},
+		},
 	},
 ];
 
@@ -92,6 +288,7 @@ const getOneProfileFields: INodeProperties[] = [
 const getProfileFields: INodeProperties[] = [
   ...getAllProfileFields,
   ...getOneProfileFields,
+	...updateProfileFields,
 	{
 		displayName: 'Query Parameters',
 		name: 'queryParameters',
