@@ -38,6 +38,17 @@ export const ProfileOperations: INodeProperties[] = [
 				},
 			},
 			{
+				name: 'Create',
+				value: 'create',
+				action: 'Create a new profile',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/profiles',
+					},
+				},
+			},
+			{
 				name: 'Update',
 				value: 'update',
 				action: 'Update a profile',
@@ -156,6 +167,91 @@ const postAttributeFields = [
 	},
 ];
 
+const createProfileFields: INodeProperties[] = [
+	{
+		displayName: 'One or more of the following are required: email, phone number, or external ID',
+		name: 'notice',
+		type: 'notice',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['create']
+			},
+		},
+	},
+	{
+		displayName: 'Attributes',
+		name: 'createAttributes',
+		placeholder: 'Add Attribute',
+		type: 'fixedCollection',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['create']
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Attributes',
+				name: 'attribute',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'options',
+						options: postAttributeFields,
+						default: 'email',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Properties',
+				name: 'property',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					}
+				]
+			}
+		],
+		routing: {
+			request: {
+				body: {
+					data: {
+						type: 'profile',
+						attributes: '={{ {\
+							...Object.fromEntries(($value.attribute || []).map(({ key, value }) => [key, value])),\
+							properties: {\
+								...Object.fromEntries(($value.property || []).map(({ key, value }) => [key, value]))\
+							}\
+						} }}',
+					},
+				},
+			},
+		},
+	},
+];
+
 const updateProfileFields: INodeProperties[] = [
 	{
 		displayName: 'Profile ID',
@@ -244,6 +340,7 @@ const updateProfileFields: INodeProperties[] = [
 ];
 
 const postProfileFields: INodeProperties[] = [
+	...createProfileFields,
 	...updateProfileFields,
 ]
 
