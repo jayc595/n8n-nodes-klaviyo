@@ -61,6 +61,10 @@ export const ProfileOperations: INodeProperties[] = [
 	},
 ];
 
+
+/* --------------------------------------------------------
+		POST
+----------------------------------------------------------- */
 const postAttributeFields = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
