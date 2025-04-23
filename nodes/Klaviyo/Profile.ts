@@ -461,7 +461,171 @@ const getAttributeFields = [
 ];
 
 const getAllProfileFields: INodeProperties[] = [
-	// No specific options for getAll
+	{
+		displayName: 'Page Size',
+		name: 'pageSize',
+		type: 'number',
+		default: 20,
+		typeOptions: {
+			maxValue: 100,
+			minValue: 1,
+			numberPrecision: 1,
+		},
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['getAll'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					'page[size]': '={{ $value }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Filters',
+		name: 'filters',
+		type: 'fixedCollection',
+		placeholder: 'Add filter',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['getAll'],
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Field',
+				name: 'field',
+				values: [
+					{
+						displayName: 'Field',
+						name: 'field',
+						type: 'options',
+						// eslint-disable-next-line n8n-nodes-base/node-param-options-type-unsorted-items
+						options: [
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased,n8n-nodes-base/node-param-display-name-miscased-id
+								name: 'id',
+								value: 'id',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'email',
+								value: 'email',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'phone_number',
+								value: 'phone_number',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'external_id',
+								value: 'external_id',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: '_kx',
+								value: '_kx',
+							},
+						],
+						default: 'id',
+					},
+					{
+						displayName: 'Operator',
+						name: 'operator',
+						type: 'options',
+						// eslint-disable-next-line n8n-nodes-base/node-param-options-type-unsorted-items
+						options: [
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'equals',
+								value: 'equals'
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'any',
+								value: 'any',
+							},
+						],
+						default: 'equals',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						hint: 'If "any" is selected, add a comma-separated list in the value',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Date',
+				name: 'date',
+				values: [
+					{
+						displayName: 'Field',
+						name: 'field',
+						type: 'options',
+						options: [
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'created',
+								value: 'created',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'updated',
+								value: 'updated',
+							}
+						],
+						default: 'created',
+					},
+					{
+						displayName: 'Operator',
+						name: 'operator',
+						type: 'options',
+						options: [
+							{
+								name: 'greater-than',
+								value: 'greater-than',
+							},
+							{
+								name: 'less-than',
+								value: 'less-than',
+							}
+						],
+						default: 'greater-than',
+					},
+					{
+						displayName: 'Date',
+						name: 'value',
+						type: 'dateTime',
+						default: ''
+					}
+				]
+			}
+		],
+		routing: {
+			request: {
+				qs: {
+					filter: '={{ [\
+						...($value.field ?? []).map(({ field, operator, value }) => `${operator}(${field},${JSON.stringify(operator == "any" ? value.split(",") : value)})`),\
+						...($value.date ?? []).map(({ field, operator, value }) => `${operator}(${field},${value}Z)`)\
+					].join(",") }}',
+				}
+			}
+		}
+	},
 ];
 
 const getOneProfileFields: INodeProperties[] = [
