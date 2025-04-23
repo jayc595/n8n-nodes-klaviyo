@@ -1,5 +1,7 @@
 import { INodeProperties } from 'n8n-workflow';
 import { getEventAttrFields } from './EventFields';
+import { getMetricAttrFields } from './MetricFields';
+import { getProfileAttrFields } from "./ProfileFields";
 
 export const EventOperations: INodeProperties[] = [
 	{
@@ -201,7 +203,81 @@ const getEventFields: INodeProperties[] = [
 		routing: {
 			request: {
 				qs: {
-					'fields[event]': '={{ $value.join(",") }}',
+					'fields[event]': '={{ $value.length > 0 ? $value.join(",") : undefined }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Additional Resources',
+		name: 'include',
+		type: 'multiOptions',
+		options: [
+			{
+				// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+				name: 'metric',
+				value: 'metric',
+			},
+			{
+				// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+				name: 'profile',
+				value: 'profile',
+			},
+		],
+		default: [],
+		description: 'The events to be monitored',
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll','getOne'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					include: '={{ $value.length > 0 ? $value.join(",") : undefined }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Metric Fields',
+		name: 'metricFields',
+		type: 'multiOptions',
+		hint: 'Requires "metric" in the Additional Resources field',
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll', 'getOne'],
+			},
+		},
+		options: getMetricAttrFields,
+		default: [],
+		routing: {
+			request: {
+				qs: {
+					'fields[metric]': '={{ $value.length > 0 ? $value.join(",") : undefined }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Profile Fields',
+		name: 'profileFields',
+		type: 'multiOptions',
+		hint: 'Requires "profile" in the Additional Resources field',
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll', 'getOne'],
+			},
+		},
+		options: getProfileAttrFields,
+		default: [],
+		routing: {
+			request: {
+				qs: {
+					'fields[profile]': '={{ $value.length > 0 ? $value.join(",") : undefined }}',
 				},
 			},
 		},
