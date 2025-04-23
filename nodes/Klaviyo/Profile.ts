@@ -31,9 +31,6 @@ export const ProfileOperations: INodeProperties[] = [
 					request: {
 						method: 'GET',
 						url: '/profiles',
-						qs: {
-							'page[size]': '1'
-						}
 					},
 				},
 			},
@@ -642,33 +639,10 @@ const getOneProfileFields: INodeProperties[] = [
 		},
 		routing: {
 			request: {
-				qs: {
-					filter: '={{ $value ? `equals(id,"${$value}")` : undefined }}'
-				},
+				url: '=/profiles/{{ $value }}'
 			},
 		},
 	},
-	{
-		displayName: 'Email Address',
-		name: 'profileEmail',
-		type: 'string',
-		placeholder: 'name@email.com',
-		hint: 'Will override ID if specified',
-		displayOptions: {
-			show: {
-				resource: ['profile'],
-				operation: ['getOne'],
-			},
-		},
-		default: '',
-		routing: {
-			request: {
-				qs: {
-					filter: '={{ $value ? `equals(email,"${$value}")` : undefined }}'
-				},
-			},
-		},
-	}
 ];
 
 const getProfileFields: INodeProperties[] = [
