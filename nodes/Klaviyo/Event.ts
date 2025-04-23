@@ -39,8 +39,130 @@ export const EventOperations: INodeProperties[] = [
 	},
 ];
 
+/* --------------------------------------------------------
+		GET
+----------------------------------------------------------- */
 const getAllEventFields: INodeProperties[] = [
-
+	{
+		displayName: 'Page Size',
+		name: 'pageSize',
+		type: 'number',
+		default: 20,
+		typeOptions: {
+			maxValue: 100,
+			minValue: 1,
+			numberPrecision: 1,
+		},
+		required: true,
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					'page[size]': '={{ $value }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Filters',
+		name: 'filters',
+		type: 'fixedCollection',
+		placeholder: 'Add filter',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll'],
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Field',
+				name: 'field',
+				values: [
+					{
+						displayName: 'Field',
+						name: 'field',
+						type: 'options',
+						// eslint-disable-next-line n8n-nodes-base/node-param-options-type-unsorted-items
+						options: [
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'metric_id',
+								value: 'metric_id',
+							},
+							{
+								// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+								name: 'profile_id',
+								value: 'profile_id',
+							},
+						],
+						default: 'metric_id',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Date',
+				name: 'date',
+				values: [
+					{
+						displayName: 'Operator',
+						name: 'operator',
+						type: 'options',
+						options: [
+							{
+								name: 'greater-or-equal',
+								value: 'greater-or-equal',
+							},
+							{
+								name: 'greater-than',
+								value: 'greater-than',
+							},
+							{
+								name: 'less-or-equal',
+								value: 'less-or-equal',
+							},
+							{
+								name: 'less-than',
+								value: 'less-than',
+							}
+						],
+						default: 'greater-than',
+					},
+					{
+						displayName: 'Date',
+						name: 'value',
+						type: 'dateTime',
+						default: ''
+					}
+				]
+			}
+		],
+		routing: {
+			request: {
+				qs: {
+					filter: '={{ [\
+						...($value.field ?? []).map(({ field, value }) => `equals(${field},"${value}")`),\
+						...($value.date ?? []).map(({ operator, value }) => `${operator}(datetime,${value}Z)`)\
+					].join(",") }}',
+				}
+			}
+		}
+	},
 ]
 
 const getOneEventFields: INodeProperties[] = [
@@ -72,7 +194,6 @@ const getEventFields: INodeProperties[] = [
 				operation: ['getAll', 'getOne'],
 			},
 		},
-		hint: 'Optional. Select which fields are returned.',
 		options: [
 			{
         // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
@@ -95,6 +216,7 @@ const getEventFields: INodeProperties[] = [
 				value: 'uuid'
 			},
 		],
+		required: true,
 		default: [],
 		routing: {
 			request: {
