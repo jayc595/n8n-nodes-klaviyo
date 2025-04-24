@@ -1,4 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
+import { parsePageCursors } from './GenericFunctions';
 import { getEventAttrFields } from './EventFields';
 import { getMetricAttrFields } from './MetricFields';
 import { getProfileAttrFields } from "./ProfileFields";
@@ -38,7 +39,7 @@ export const EventOperations: INodeProperties[] = [
 				}
       },
 		],
-		default: 'getAll',
+		default: 'getAll'
 	},
 ];
 
@@ -47,12 +48,34 @@ export const EventOperations: INodeProperties[] = [
 ----------------------------------------------------------- */
 const getAllEventFields: INodeProperties[] = [
 	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		default: '',
+		routing: {
+			request: {
+				qs: {
+					'page[cursor]': '={{ $value }}'
+				},
+			},
+			output: {
+				postReceive: [parsePageCursors],
+			},
+		},
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll'],
+			},
+		},
+	},
+	{
 		displayName: 'Page Size',
 		name: 'pageSize',
 		type: 'number',
 		default: 20,
 		typeOptions: {
-			maxValue: 100,
+			maxValue: 200,
 			minValue: 1,
 			numberPrecision: 1,
 		},

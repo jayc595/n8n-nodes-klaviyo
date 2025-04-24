@@ -1,4 +1,5 @@
 import { INodeProperties } from "n8n-workflow";
+import { parsePageCursors } from './GenericFunctions';
 import { getProfileAttrFields, postProfileAttrFields } from "./ProfileFields";
 
 export const ProfileOperations: INodeProperties[] = [
@@ -247,6 +248,28 @@ const postProfileFields: INodeProperties[] = [
 		GET
 ----------------------------------------------------------- */
 const getAllProfileFields: INodeProperties[] = [
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		default: '',
+		routing: {
+			request: {
+				qs: {
+					'page[cursor]': '={{ $value }}'
+				},
+			},
+			output: {
+				postReceive: [parsePageCursors],
+			},
+		},
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['getAll'],
+			},
+		},
+	},
 	{
 		displayName: 'Page Size',
 		name: 'pageSize',
