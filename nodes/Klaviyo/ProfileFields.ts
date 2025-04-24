@@ -213,3 +213,46 @@ export const getProfileAttrFields = [
 		value: 'properties',
 	},
 ];
+
+export const profileSortValues = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased,n8n-nodes-base/node-param-display-name-miscased-id
+		name: 'id (Ascending)',
+		value: 'id',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased,n8n-nodes-base/node-param-display-name-miscased-id
+		name: 'id (Descending)',
+		value: '-id',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'email (Ascending)',
+		value: 'email',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'email (Descending)',
+		value: '-email',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'created (Oldest First)',
+		value: 'created',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'created (Newest First)',
+		value: '-created',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'updated (Oldest First)',
+		value: 'updated',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'updated (Newest First)',
+		value: '-updated',
+	},
+]

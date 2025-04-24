@@ -1,6 +1,10 @@
 import { INodeProperties } from "n8n-workflow";
 import { parsePageCursors } from './GenericFunctions';
-import { getProfileAttrFields, postProfileAttrFields } from "./ProfileFields";
+import {
+	getProfileAttrFields,
+	postProfileAttrFields,
+	profileSortValues
+} from "./ProfileFields";
 
 export const ProfileOperations: INodeProperties[] = [
 	{
@@ -291,6 +295,26 @@ const getAllProfileFields: INodeProperties[] = [
 			request: {
 				qs: {
 					'page[size]': '={{ $value }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Sort',
+		name: 'profileSort',
+		type: 'options',
+		default: '',
+		options: profileSortValues,
+		displayOptions: {
+			show: {
+				resource: ['profile'],
+				operation: ['getAll'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					sort: '={{ $value }}',
 				},
 			},
 		},

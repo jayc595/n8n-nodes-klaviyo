@@ -1,6 +1,9 @@
 import { INodeProperties } from 'n8n-workflow';
 import { parsePageCursors } from './GenericFunctions';
-import { getEventAttrFields } from './EventFields';
+import {
+	getEventAttrFields,
+	eventSortValues
+} from './EventFields';
 import { getMetricAttrFields } from './MetricFields';
 import { getProfileAttrFields } from "./ProfileFields";
 
@@ -90,6 +93,26 @@ const getAllEventFields: INodeProperties[] = [
 			request: {
 				qs: {
 					'page[size]': '={{ $value }}',
+				},
+			},
+		},
+	},
+	{
+		displayName: 'Sort',
+		name: 'eventSort',
+		type: 'options',
+		default: '',
+		options: eventSortValues,
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['getAll'],
+			},
+		},
+		routing: {
+			request: {
+				qs: {
+					sort: '={{ $value }}',
 				},
 			},
 		},
