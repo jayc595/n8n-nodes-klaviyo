@@ -1,3 +1,26 @@
+export const postEventAttrFields = [
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'time',
+		value: 'time'
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'value',
+		value: 'value',
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'value_currency',
+		value: 'value_currency'
+	},
+	{
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+		name: 'unique_id',
+		value: 'unique_id'
+	},
+]
+
 export const getEventAttrFields = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased

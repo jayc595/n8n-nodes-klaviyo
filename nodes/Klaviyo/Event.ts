@@ -1,11 +1,15 @@
 import { INodeProperties } from 'n8n-workflow';
 import { parsePageCursors } from './GenericFunctions';
 import {
+	postEventAttrFields,
 	getEventAttrFields,
 	eventSortValues
 } from './EventFields';
 import { getMetricAttrFields } from './MetricFields';
-import { getProfileAttrFields } from "./ProfileFields";
+import {
+	postProfileAttrFields,
+	getProfileAttrFields
+} from "./ProfileFields";
 
 export const EventOperations: INodeProperties[] = [
 	{
@@ -41,10 +45,227 @@ export const EventOperations: INodeProperties[] = [
 					}
 				}
       },
+			{
+				name: 'Create',
+				value: 'create',
+				action: 'Create an event',
+				routing: {
+					request: {
+						method: 'POST',
+						url: '/events',
+						body: {
+							data: {
+								type: 'event',
+								attributes: {},
+							},
+						},
+					},
+				},
+			},
 		],
 		default: 'getAll'
 	},
 ];
+
+
+/* --------------------------------------------------------
+		POST
+----------------------------------------------------------- */
+const createEventFields: INodeProperties[] = [
+	{
+		displayName: 'Event Metric',
+		name: 'createEventMetric',
+		type: 'string',
+		default: 'n8n Event',
+		required: true,
+		routing: {
+			request: {
+				body: {
+					data: {
+						attributes: {
+							metric: {
+								data: {
+									type: 'metric',
+									attributes: {
+										name: '={{ $value }}',
+										service: 'n8n',
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Event Attributes',
+		name: 'createEventAttributes',
+		placeholder: 'Add Attribute',
+		type: 'fixedCollection',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['create']
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Attributes',
+				name: 'attribute',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'options',
+						options: postEventAttrFields,
+						default: 'value',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Properties',
+				name: 'property',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					}
+				]
+			},
+		],
+		routing: {
+			request: {
+				body: {
+					data: {
+						attributes: '={{ {\
+							...Object.fromEntries(($value.attribute || []).map(({ key, value }) => [key, value])),\
+							properties: {\
+								...Object.fromEntries(($value.property || []).map(({ key, value }) => [key, value]))\
+							},\
+						} }}',
+					},
+				},
+			},
+		},
+	},
+	{
+		displayName: 'One or more of the following profile attributes are required: email, phone number, or external ID',
+		name: 'notice',
+		type: 'notice',
+		default: '',
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['create']
+			},
+		},
+	},
+	{
+		displayName: 'Profile Attributes',
+		name: 'createProfileAttributes',
+		placeholder: 'Add Attribute',
+		type: 'fixedCollection',
+		default: {},
+		displayOptions: {
+			show: {
+				resource: ['event'],
+				operation: ['create']
+			},
+		},
+		typeOptions: {
+			multipleValues: true,
+		},
+		options: [
+			{
+				displayName: 'Attributes',
+				name: 'attribute',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'options',
+						options: postProfileAttrFields,
+						default: 'email',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+			},
+			{
+				displayName: 'Properties',
+				name: 'property',
+				values: [
+					{
+						displayName: 'Key',
+						name: 'key',
+						type: 'string',
+						default: '',
+					},
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					}
+				]
+			},
+		],
+		routing: {
+			request: {
+				body: {
+					data: {
+						attributes: {
+							profile: {
+								data: {
+									type: 'profile',
+									attributes: '={{ {\
+										...Object.fromEntries(($value.attribute || []).map(({ key, value }) => [key, value])),\
+										properties: {\
+											...Object.fromEntries(($value.property || []).map(({ key, value }) => [key, value]))\
+										},\
+									} }}',
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+]
+
+const postEventFields: INodeProperties[] = [
+	...createEventFields,
+]
 
 /* --------------------------------------------------------
 		GET
@@ -331,5 +552,6 @@ const getEventFields: INodeProperties[] = [
 ];
 
 export const EventFields: INodeProperties[] = [
+	...postEventFields,
 	...getEventFields,
 ]
