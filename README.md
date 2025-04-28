@@ -25,6 +25,7 @@ Instructions for obtaining a Klaviyo API private key can be found in the [Klaviy
 ### Events
 - Get All
 - Get One by ID
+- Create
 
 ## License
 
