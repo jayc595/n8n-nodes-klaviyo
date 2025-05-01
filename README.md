@@ -1,32 +1,60 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
-
 # n8n-nodes-klaviyo
 
-This repo contains nodes and credentials for connecting the Klaviyo CRM to [n8n](n8n.io).
+This is an n8n community node. It lets you use the Klaviyo CRM service in your n8n workflows.
 
-This project is a work in progress. Please feel free to submit requests for additional operations and I will add them as I have time.
+Klaviyo is a unified customer platform that empowers businesses to build smarter digital relationships through personalized email and SMS marketing, leveraging their own data to drive engagement and growth. It offers tools for automation, segmentation, and analytics, specifically designed for e-commerce and direct-to-consumer brands.
+
+This project is a work in progress. Please feel free to submit feedback and requests for additional operations and I will add them as I have time.
+
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+
+[Installation](#installation)  
+[Operations](#operations)  
+[Credentials](#credentials)  <!-- delete if no auth needed -->  
+[Compatibility](#compatibility)  
+[Usage](#usage)  <!-- delete if not using this section -->  
+[Resources](#resources)  
+[Version history](#version-history)  <!-- delete if not using this section -->  
 
 ## Installation
 
-Installation instructions for community nodes can be found in the [official n8n documentation](https://docs.n8n.io/integrations/community-nodes/installation/).
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
-Once installed, credentials must be set up with your Klaviyo account for authentication. Your private key must have the minimum permissions of read access for events to pass verification.
-
-Instructions for obtaining a Klaviyo API private key can be found in the [Klaviyo documentation](https://help.klaviyo.com/hc/en-us/articles/7423954176283).
-
-## Available operations
-
-### Profiles
-- Get All
-- Get One by ID
-- Create
-- Update
+## Operations
 
 ### Events
 - Get All
-- Get One by ID
+- Get One
 - Create
 
-## License
+### Profiles
+- Get All
+- Get One
+- Create
+- Update
 
-[MIT](https://github.com/jayvogt/n8n-nodes-klaviyo/blob/master/LICENSE.md)
+## Credentials
+
+If you don't already have a Klaviyo account, you can [sign up here](https://www.klaviyo.com/sign-up).
+
+This node authenticates to the Klaviyo API and your account using a private key. Steps for obtaining this private key can be found in the [Klaviyo documentation](https://help.klaviyo.com/hc/en-us/articles/7423954176283).
+
+Klaviyo API private key must have minimum permissions of Read Access to the Events resource to pass the authentication test.
+
+## Compatibility
+
+Tested on version 1.75.2, but likely will work on lower versions.
+
+## Resources
+
+* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+* [Klaviyo Account Sign-up](https://www.klaviyo.com/sign-up)
+* [Klaviyo API documentation](https://developers.klaviyo.com/en/reference/api_overview)
+
+## Version history
+
+### v1
+
+- Main release
+
+
