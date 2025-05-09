@@ -3,6 +3,7 @@ import {
 	INodeTypeDescription,
 	NodeConnectionType
 } from 'n8n-workflow';
+import { CustomMetricOperations, CustomMetricFields } from './CustomMetric';
 import { EventOperations, EventFields } from './Event';
 import { MetricOperations, MetricFields } from './Metric';
 import { ProfileOperations, ProfileFields } from './Profile';
@@ -44,6 +45,10 @@ export class Klaviyo implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
+						name: 'Custom Metric',
+						value: 'customMetric'
+					},
+					{
 						name: 'Event',
 						value: 'event',
 					},
@@ -58,6 +63,8 @@ export class Klaviyo implements INodeType {
 				],
 				default: 'event',
 			},
+			...CustomMetricOperations,
+			...CustomMetricFields,
 			...EventOperations,
 			...EventFields,
 			...MetricOperations,
