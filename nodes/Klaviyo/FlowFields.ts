@@ -1,8 +1,18 @@
-export const getMetricAttrFields = [
+export const getFlowAttrFields = [
   {
     // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
     name: 'name',
     value: 'name'
+  },
+  {
+    // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+    name: 'status',
+    value: 'status'
+  },
+  {
+    // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+    name: 'archived',
+    value: 'archived'
   },
   {
     // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
@@ -16,7 +26,7 @@ export const getMetricAttrFields = [
   },
   {
     // eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
-    name: 'integration',
-    value: 'integration'
+    name: 'trigger_type',
+    value: 'trigger_type'
   },
 ];
