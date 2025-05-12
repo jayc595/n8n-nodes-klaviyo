@@ -7,6 +7,7 @@ import { CustomMetricOperations, CustomMetricFields } from './CustomMetric';
 import { EventOperations, EventFields } from './Event';
 import { MetricOperations, MetricFields } from './Metric';
 import { ProfileOperations, ProfileFields } from './Profile';
+import { TemplateOperations, TemplateFields } from './Template';
 
 export class Klaviyo implements INodeType {
 	description: INodeTypeDescription = {
@@ -60,6 +61,10 @@ export class Klaviyo implements INodeType {
 						name: 'Profile',
 						value: 'profile',
 					},
+					{
+						name: 'Template',
+						value: 'template',
+					}
 				],
 				default: 'event',
 			},
@@ -71,6 +76,8 @@ export class Klaviyo implements INodeType {
 			...MetricFields,
 			...ProfileOperations,
 			...ProfileFields,
+			...TemplateOperations,
+			...TemplateFields
 		],
 	};
 }

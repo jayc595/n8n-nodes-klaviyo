@@ -22,15 +22,30 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Operations
 
+### Custom Metrics
+- Get All
+- Get One
+
 ### Events
 - Get All
 - Get One
 - Create
 
+### Metrics
+- Get All
+- Get One
+
 ### Profiles
 - Get All
 - Get One
 - Create
+- Update
+
+### Templates
+- Create
+- Delete
+- Get All
+- Get One
 - Update
 
 ## Credentials

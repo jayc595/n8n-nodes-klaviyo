@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.4.0
+
+- Metric operations:
+  - Get All
+  - Get One
+
+- Custom Metric operations:
+  - Get All
+  - Get One
+
+- Template operations:
+  - Create
+  - Delete
+  - Get All
+  - Get One
+  - Update
+
 ## 0.3.1
 
 - Bump version for pushing the updated README
