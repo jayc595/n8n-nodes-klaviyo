@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1
+- Add API version 2025-07-15
+- Remove deprecated API versions
+  - 2024-02-15
+  - 2024-05-15
+  - 2024-06-15
+  - 2024-07-15
+
 ## 0.4.0
 
 - Metric operations:

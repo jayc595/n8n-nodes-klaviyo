@@ -26,6 +26,10 @@ export class KlaviyoApi implements ICredentialType {
 			type: 'options',
 			options: [
 				{
+					name: '2025-07-15',
+					value: '2025-07-15',
+				},
+				{
 					name: '2025-04-15',
 					value: '2025-04-15',
 				},
@@ -37,24 +41,8 @@ export class KlaviyoApi implements ICredentialType {
 					name: '2024-10-15',
 					value: '2024-10-15',
 				},
-				{
-					name: '2024-07-15',
-					value: '2024-07-15',
-				},
-				{
-					name: '2024-06-15',
-					value: '2024-06-15',
-				},
-				{
-					name: '2024-05-15',
-					value: '2024-05-15',
-				},
-				{
-					name: '2024-02-15',
-					value: '2024-02-15',
-				},
 			],
-			default: '2025-04-15',
+			default: '2025-07-15',
 		},
 	];
 
